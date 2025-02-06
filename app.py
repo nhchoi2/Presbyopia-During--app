@@ -4,6 +4,7 @@ from PIL import Image, ImageOps
 import numpy as np
 from config import API_KEY, DEBUG_MODE
 import openai
+import os
 
 # OpenAI API 키 설정
 if not API_KEY:
