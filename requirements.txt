@@ -2,6 +2,6 @@ streamlit
 tensorflow==2.15
 numpy
 pillow
+opencv-python-headless
 pyshorteners
-openai
-opencv-python-headless  # OpenCV 설치 문제 해결
+openai  # 최신 버전 사용!
