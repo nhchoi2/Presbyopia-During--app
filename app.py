@@ -58,7 +58,7 @@ def main():
         # 결과 라벨
         result_label = labels[pred_index]
         
-        st.write(f"**결과 라벨:** {result_label}")
+        st.write(f"**결과 라벨:** {result_label[2:]}")
         st.write(f"**확률:** {confidence * 100:.2f}%")
         
         # 피드백 메시지 (필요 없다면 제거)
