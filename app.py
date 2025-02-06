@@ -36,7 +36,7 @@ def main():
     labels = load_labels(label_path)
 
     # 업로드 파일 받기
-    uploaded_file = st.file_uploader("사진을 업로드하세요", type=["jpg", "png", "jpeg"])
+    uploaded_file = st.file_uploader("사진을 업로드하세요", type=["jpg", "png", "jpeg","webp"])
     
     if uploaded_file is not None:
         # PIL 이미지 열기
@@ -72,6 +72,7 @@ def main():
         st.markdown("**결과를 공유해보세요!**")
         st.markdown(f"[트위터로 공유하기]({share_links['twitter']})")
         st.markdown(f"[페이스북으로 공유하기]({share_links['facebook']})")
+        st.markdown(f"[네이버로 공유하기]({share_links['naver']})")
 
 if __name__ == "__main__":
     main()
