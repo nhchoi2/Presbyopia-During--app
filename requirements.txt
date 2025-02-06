@@ -6,3 +6,5 @@ opencv-python-headless
 pyshorteners
 openai  # 최신 버전 사용!
 python-dotenv
+opencv-python
+Pillow
