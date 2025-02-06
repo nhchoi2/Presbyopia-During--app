@@ -1,25 +1,25 @@
 import random
 
-# 동안/노안 피드백 리스트
-feedback = {
-    "동안": [
-        "완벽한 동안! 신분증 검사 걱정 없겠네요!",
-        "어릴 때부터 지금까지 똑같은 얼굴?!",
-        "동안 유지 비법 좀 알려주세요!",
-        "초등학생 때도 이 얼굴이었을 듯?",
-        "어디서 시간을 멈추셨나요?"
-    ],
-    "노안": [
-        "노안이지만 멋있어요! 신뢰감 폭발!",
-        "세월의 흔적이 느껴지는 얼굴… 하지만 카리스마는 최고!",
-        "인생의 깊이가 보이는 얼굴!",
-        "멋진 중후한 매력이 느껴져요!",
-        "노안이라고요? 그냥 어른스러운 거죠!"
-    ]
-}
+def get_feedback(label: str) -> str:
+    """
+    모델 판별 결과 라벨(동안/노안 등)에 따라
+    랜덤 피드백 메시지를 반환합니다.
+    """
 
-# 랜덤 피드백 반환 함수
-def get_random_feedback(result):
-    if result in feedback:
-        return random.choice(feedback[result])  # 랜덤 피드백 선택
-    return "결과를 확인할 수 없습니다."  # 예외 처리
+    young_messages = [
+        "와, 정말 피부가 탱탱하네요!",
+        "동안 미모가 빛이 납니다!",
+        "자외선 차단을 정말 잘하셨나봐요!",
+    ]
+
+    old_messages = [
+        "경륜이 느껴지는 멋진 모습이세요!",
+        "인생의 깊이가 느껴집니다!",
+        "중후함이 돋보이시네요!",
+    ]
+
+    if label == "동안":
+        return random.choice(young_messages)
+    else:
+        # "노안"으로 가정
+        return random.choice(old_messages)

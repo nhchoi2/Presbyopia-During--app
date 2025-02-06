@@ -1,99 +1,89 @@
 import streamlit as st
-from keras.models import load_model
-from PIL import Image, ImageOps
 import numpy as np
-from config import API_KEY, DEBUG_MODE
-import openai
-import os
+import tensorflow as tf
+from PIL import Image
 
-# OpenAI API 키 설정
-if not API_KEY:
-    st.warning("⚠️ OpenAI API 키가 설정되지 않았습니다. .env 파일을 확인하세요.")
-else:
-    openai.api_key = API_KEY
-    st.success("✅ OpenAI API 키가 정상적으로 로드되었습니다!")
+# utils 모듈 임포트
+from utils.face_detect import detect_and_crop_face
+from utils.feedback import get_feedback
+from utils.share_link import get_share_links
+from utils.ai_chatbot import get_ai_response
 
-# 디버그 모드 체크
-if DEBUG_MODE:
-    st.info("🔧 디버그 모드 활성화 중입니다.")
+def load_model(model_path):
+    """
+    keras_model.h5 파일을 로드해 반환합니다.
+    """
+    model = tf.keras.models.load_model(model_path)
+    return model
 
-# AI 모델 로드
-MODEL_PATH = "model/keras_model.h5"
-LABELS_PATH = "model/labels.txt"
+def load_labels(label_path):
+    """
+    labels.txt 파일을 읽어 라벨 리스트를 반환합니다.
+    """
+    with open(label_path, "r", encoding="utf-8") as f:
+        labels = [line.strip() for line in f.readlines()]
+    return labels
 
-@st.cache_resource
-def load_ai_model():
-    return load_model(MODEL_PATH, compile=False)
+def main():
+    st.title("동안 vs 노안 판별기 👶🧓")
 
-@st.cache_resource
-def load_labels():
-    with open(LABELS_PATH, "r", encoding="utf-8") as f:
-        return [line.strip() for line in f.readlines()]
+    # 모델 및 라벨 불러오기
+    model_path = "model/keras_model.h5"
+    label_path = "model/labels.txt"
 
-model = load_ai_model()
-labels = load_labels()
+    model = load_model(model_path)
+    labels = load_labels(label_path)
 
-# Streamlit UI
-st.title("🔍 동안 vs 노안 판별기")
-st.info("사진을 업로드하면 AI가 분석하여 동안인지 노안인지 판별해드립니다!")
+    st.write("Google Teachable Machine으로 학습된 모델을 사용합니다.")
+    st.write("사진을 업로드하면, 모델이 동안인지 노안인지 판별합니다.")
 
-# 파일 업로드
-uploaded_file = st.file_uploader("사진을 업로드하세요", type=["jpg", "png", "jpeg"])
+    # 사진 업로드
+    uploaded_file = st.file_uploader("사진을 업로드하세요", type=["jpg", "png", "jpeg"])
 
-if uploaded_file:
-    # 업로드된 이미지 표시
-    image = Image.open(uploaded_file)
-    st.image(image, caption="업로드한 이미지", use_column_width=True)
+    if uploaded_file is not None:
+        # PIL 이미지 열기
+        image = Image.open(uploaded_file)
 
-    # 이미지 전처리
-    size = (224, 224)
-    image = ImageOps.fit(image, size, Image.Resampling.LANCZOS)
-    image_array = np.asarray(image) / 127.5 - 1
-    img = np.expand_dims(image_array, axis=0)
+        # 얼굴 자동 크롭(옵션)
+        cropped_image = detect_and_crop_face(image)
 
-    # AI 모델로 예측
-    prediction = model.predict(img)
-    result_idx = np.argmax(prediction)
-    result_label = labels[result_idx]
-    confidence_score = prediction[0][result_idx]
+        # 이미지 표시
+        st.image(cropped_image, caption="업로드한 이미지(자동 얼굴 크롭 적용)", use_column_width=True)
 
-    # 결과 출력
-    st.subheader("📌 AI 판별 결과")
-    st.info(f"**이 얼굴은 {result_label}입니다.** 확률: {confidence_score:.2%}")
+        # 모델 입력을 위한 전처리
+        # Google Teachable Machine 기본 모델 입력 크기(224x224) 등으로 가정
+        processed_img = cropped_image.resize((224, 224))
+        img_array = np.array(processed_img) / 255.0  # 스케일링
+        img_array = np.expand_dims(img_array, axis=0)  # (1, 224, 224, 3)
 
-    # 결과에 따른 피드백
-    feedback = {
-        "동안": [
-            "완벽한 동안! 신분증 검사 걱정 없겠네요!",
-            "어릴 때부터 지금까지 똑같은 얼굴?!",
-            "동안 유지 비법 좀 알려주세요!",
-            "초등학생 때도 이 얼굴이었을 듯?",
-            "어디서 시간을 멈추셨나요?"
-        ],
-        "노안": [
-            "노안이지만 멋있어요! 신뢰감 폭발!",
-            "세월의 흔적이 느껴지는 얼굴… 하지만 카리스마는 최고!",
-            "인생의 깊이가 보이는 얼굴!",
-            "멋진 중후한 매력이 느껴져요!",
-            "노안이라고요? 그냥 어른스러운 거죠!"
-        ]
-    }
+        # 예측
+        predictions = model.predict(img_array)
+        # 예: [ [0.2, 0.8] ] 형태라고 가정
+        pred_index = np.argmax(predictions[0])
+        confidence = predictions[0][pred_index]
 
-    random_feedback = np.random.choice(feedback[result_label])
-    st.write(f"💬 **AI 피드백:** {random_feedback}")
+        result_label = labels[pred_index]
 
-    # AI 챗봇 질문
-    st.subheader("🤖 동안/노안 관련 AI 상담")
-    question = st.text_input("동안/노안 관련 질문을 입력하세요!")
-    if question:
-        with st.spinner("AI가 답변을 작성 중입니다..."):
-            try:
-                response = openai.ChatCompletion.create(
-                    model="gpt-3.5-turbo",
-                    messages=[{"role": "user", "content": question}]
-                )
-                answer = response["choices"][0]["message"]["content"]
-                st.write(f"🤖 AI 답변: {answer}")
-            except Exception as e:
-                st.error(f"❌ OpenAI API 호출 중 오류 발생: {str(e)}")
+        # 결과 출력
+        st.markdown(f"**판정 결과:** {result_label}")
+        st.markdown(f"**확률:** {confidence * 100:.2f}%")
 
+        # 피드백 메시지
+        feedback_msg = get_feedback(result_label)
+        st.info(feedback_msg)
+
+        # SNS 공유 링크
+        share_links = get_share_links(result_label)
+        st.markdown("**결과를 공유해보세요!**")
+        st.markdown(f"[트위터로 공유하기]({share_links['twitter']})")
+        st.markdown(f"[페이스북으로 공유하기]({share_links['facebook']})")
+
+    st.markdown("---")
+    st.header("AI 챗봇과 대화하기")
+    user_input = st.text_input("챗봇에게 궁금한 것을 물어보세요.")
+    if user_input:
+        chatbot_answer = get_ai_response(user_input)
+        st.write(f"**AI 답변:** {chatbot_answer}")
+
+if __name__ == "__main__":
+    main()
