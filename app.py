@@ -72,7 +72,7 @@ def main():
         st.markdown("**결과를 공유해보세요!**")
         st.markdown(f"[트위터로 공유하기]({share_links['twitter']})")
         st.markdown(f"[페이스북으로 공유하기]({share_links['facebook']})")
-        st.markdown(f"[네이버로 공유하기]({share_links['naver']})")
+    
 
 if __name__ == "__main__":
     main()
