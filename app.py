@@ -52,7 +52,9 @@ def main():
         
         # 모델 예측
         predictions = model.predict(img_array)
+        print(predictions)
         pred_index = np.argmax(predictions[0])
+        print(pred_index)
         confidence = predictions[0][pred_index]
         
         # 결과 라벨
