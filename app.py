@@ -7,8 +7,10 @@ import openai
 
 # OpenAI API 키 설정
 if not API_KEY:
-    raise ValueError("❌ OpenAI API 키가 설정되지 않았습니다.")
-openai.api_key = API_KEY
+    st.warning("⚠️ OpenAI API 키가 설정되지 않았습니다. .env 파일을 확인하세요.")
+else:
+    openai.api_key = API_KEY
+    st.success("✅ OpenAI API 키가 정상적으로 로드되었습니다!")
 
 # 디버그 모드 체크
 if DEBUG_MODE:
