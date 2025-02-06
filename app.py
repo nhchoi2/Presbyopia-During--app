@@ -3,8 +3,7 @@ from PIL import Image
 from utils.model_utils import load_model, load_labels, predict_image
 from utils.feedback import get_feedback
 from utils.share_link import get_share_links
-from utils.face_detect import detect_faces, estimate_age, analyze_skin
-from utils.sidebar import load_sidebar  # ✅ 사이드바 추가
+from utils.sidebar import load_sidebar
 
 # 모델 및 라벨 불러오기
 model = load_model()
@@ -21,7 +20,7 @@ if mode == "개별 분석":
 
     if uploaded_file:
         image = Image.open(uploaded_file)
-        st.image(image, caption="업로드한 이미지", width=450)
+        st.image(image, caption="업로드한 이미지", use_column_width=True)
 
         # AI 예측 수행
         result_label, confidence_score = predict_image(model, image, class_names)
@@ -30,20 +29,16 @@ if mode == "개별 분석":
         st.subheader(f"📌 AI 판별 결과: {result_label}")
         st.write(f"확신도: {confidence_score:.2%}")
 
-        # 🔹 얼굴 검출 추가
-        faces = detect_faces(image)
-        if faces:
-            estimated_age = estimate_age(image)
-            skin_result = analyze_skin(image)
-
-            st.subheader(f"📌 AI 예측 나이: {estimated_age}세")
-            st.write(skin_result)
-        else:
-            st.warning("😔 얼굴을 찾지 못했습니다. 더 밝은 환경에서 촬영해 주세요.")
-
         # 🔹 랜덤 피드백 제공
         feedback_message = get_feedback(result_label.strip())
         st.success(f"💬 {feedback_message}")
+
+        # 🔹 AI 스킨케어 팁 제공
+        st.subheader("💡 AI 스킨케어 추천")
+        if result_label == "동안":
+            st.info("✨ 당신은 동안입니다! 하지만 꾸준한 관리가 중요해요. 피부 보습을 유지하고, 자외선 차단제를 꼭 사용하세요!")
+        else:
+            st.warning("🔎 피부 건강이 중요해요! 콜라겐이 풍부한 음식을 섭취하고, 충분한 수면을 취하면 피부 개선에 도움이 됩니다.")
 
         # 🔹 SNS 공유 링크 추가
         st.subheader("🔗 결과 공유하기")
