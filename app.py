@@ -21,7 +21,7 @@ if mode == "개별 분석":
 
     if uploaded_file:
         image = Image.open(uploaded_file)
-        st.image(image, caption="업로드한 이미지", use_column_width=True)
+        st.image(image, caption="업로드한 이미지", width=450)
 
         # AI 예측 수행
         result_label, confidence_score = predict_image(model, image, class_names)
