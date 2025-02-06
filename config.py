@@ -2,16 +2,16 @@ import os
 from dotenv import load_dotenv
 
 # 현재 디렉토리에서 .env 파일 강제 로드
-dotenv_path = os.path.join(os.getcwd(), ".env")
-
+dotenv_path = os.path.join(os.getcwd(), ".env")  # getcwd() 사용하여 현재 작업 디렉토리 확인
 if os.path.exists(dotenv_path):
     print(f"🔍 .env 파일 찾음: {dotenv_path}")
-    load_dotenv(dotenv_path)  # 강제 로드
+    load_dotenv(dotenv_path)  # .env 파일 강제 로드
 else:
     print("❌ .env 파일이 존재하지 않습니다. 파일 위치를 확인하세요.")
 
 # 환경 변수 가져오기
 API_KEY = os.getenv("OPENAI_API_KEY")
+DEBUG_MODE = os.getenv("DEBUG", "False").lower() == "true"
 
 # API 키 확인 로그 추가
 if API_KEY:
