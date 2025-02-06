@@ -2,3 +2,6 @@ streamlit
 tensorflow==2.15
 numpy
 pillow
+opencv-python
+pyshorteners
+openai
