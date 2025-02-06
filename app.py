@@ -2,6 +2,8 @@ import streamlit as st
 import numpy as np
 import tensorflow as tf
 from PIL import Image
+from utils.face_detect import detect_faces
+
 
 # 만약 feedback.py와 share_link.py를 사용하지 않는다면, 아래 import도 제거하세요.
 from utils.feedback import get_feedback
