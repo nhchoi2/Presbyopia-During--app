@@ -9,16 +9,20 @@ def detect_faces(image):
     """
     업로드된 이미지에서 얼굴을 검출하는 함수
     """
-    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+    try:
+        face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
-    # 이미지 변환 (PIL → OpenCV 배열)
-    image_np = np.array(image)
-    gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+        # 이미지 변환 (PIL → OpenCV 배열)
+        image_np = np.array(image)
+        gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
 
-    # 얼굴 검출 실행
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+        # 얼굴 검출 실행
+        faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 
-    return faces
+        return faces if len(faces) > 0 else []  # ✅ 항상 리스트 반환하여 오류 방지
+    except Exception as e:
+        print(f"❌ 얼굴 검출 중 오류 발생: {str(e)}")
+        return []  # ✅ 오류 발생 시 빈 리스트 반환
 
 def estimate_age(image):
     """
@@ -35,11 +39,14 @@ def analyze_skin(image):
     """
     주름(피부 상태)을 분석하는 함수
     """
-    gray = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2GRAY)
-    entropy_img = entropy(gray, disk(5))  # 피부 노화 분석
-    wrinkle_score = entropy_img.mean()
+    try:
+        gray = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2GRAY)
+        entropy_img = entropy(gray, disk(5))  # 피부 노화 분석
+        wrinkle_score = entropy_img.mean()
 
-    if wrinkle_score > 5.0:
-        return "😔 주름이 많아 노안 경향이 있습니다."
-    else:
-        return "🎉 피부가 부드러워 동안으로 보입니다!"
+        if wrinkle_score > 5.0:
+            return "😔 주름이 많아 노안 경향이 있습니다."
+        else:
+            return "🎉 피부가 부드러워 동안으로 보입니다!"
+    except Exception as e:
+        return f"피부 분석 실패: {str(e)}"

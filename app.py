@@ -58,14 +58,16 @@ if uploaded_file:
     st.subheader(f"📌 AI 판별 결과: {result_label}")
     st.write(f"확신도: {confidence_score:.2%}")
 
-    # 🔹 나이 예측 및 피부 분석 추가
+    # 🔹 얼굴 검출 추가 (오류 방지 처리 포함)
     faces = detect_faces(image)
-    if faces:
+    if isinstance(faces, list) and len(faces) > 0:  # ✅ 빈 리스트 처리 추가
         estimated_age = estimate_age(image)
         skin_result = analyze_skin(image)
-        
+
         st.subheader(f"📌 AI 예측 나이: {estimated_age}세")  # 🔹 AI가 예측한 나이 출력
         st.write(skin_result)  # 🔹 피부 분석 결과 출력
+    else:
+        st.warning("😔 얼굴을 찾지 못했습니다. 더 밝은 환경에서 촬영해 주세요.")
 
     # 🔹 랜덤 피드백 제공
     feedback_message = get_feedback(result_label.strip())  # 🔹 라벨에서 공백 제거 후 피드백
