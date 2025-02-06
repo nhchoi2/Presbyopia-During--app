@@ -6,3 +6,4 @@ deepface
 keras
 scikit-image
 opencv-python-headless
+sys

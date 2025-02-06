@@ -2,13 +2,15 @@ import streamlit as st
 import numpy as np
 import tensorflow as tf
 from PIL import Image
-from utils.face_detect import detect_faces
-
-
-# 만약 feedback.py와 share_link.py를 사용하지 않는다면, 아래 import도 제거하세요.
+import sys
+import os
 from utils.feedback import get_feedback
 from utils.share_link import get_share_links
+from utils.face_detect import detect_faces  # ✅ face_detect 임포트
 
+# 현재 디렉토리를 Python 경로에 추가하여 `utils` 폴더 인식 가능하게 설정
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+# 만약 feedback.py와 share_link.py를 사용하지 않는다면, 아래 import도 제거하세요.
 def load_model(model_path: str):
     """
     Google Teachable Machine 등에서 export한 Keras 모델(keras_model.h5)을 로드합니다.
