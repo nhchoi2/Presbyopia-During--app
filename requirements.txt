@@ -4,6 +4,5 @@ numpy
 pillow
 deepface
 keras
-scikit-image
+scikit-image==0.19.3  # ✅ 안정적인 버전으로 고정
 opencv-python-headless
-sys
