@@ -7,7 +7,14 @@ from utils.face_detect import crop_face
 from utils.share_link import generate_share_link
 from utils.ai_chatbot import ask_ai
 from utils.feedback import get_random_feedback  # 랜덤 피드백 추가
+from config import API_KEY
 
+# API 키 확인
+if API_KEY:
+    print(f"✅ OpenAI API 키: {API_KEY}")
+else:
+    print("❌ API 키를 찾을 수 없습니다.")
+    
 # 모델 로드
 model = load_model("model/keras_model.h5", compile=False)
 labels = open("model/labels.txt", "r", encoding="utf-8").readlines()
@@ -21,7 +28,7 @@ uploaded_file = st.file_uploader("사진을 업로드하세요", type=["jpg", "p
 
 if uploaded_file:
     image = Image.open(uploaded_file)
-    st.image(image, caption="업로드한 이미지", use_column_width=True)
+    st.image(image, caption="업로드한 이미지", use_container_width=True)
 
     # 얼굴 감지 및 크롭
     image = crop_face(image)
