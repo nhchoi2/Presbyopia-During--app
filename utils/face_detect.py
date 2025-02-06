@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 from PIL import Image
-
 def detect_and_crop_face(image: Image.Image) -> Image.Image:
     """
     업로드된 PIL 이미지에서 얼굴을 자동으로 감지하고,

@@ -9,3 +9,4 @@ python-dotenv
 opencv-python
 Pillow
 cv2
+detect_and_crop_face
