@@ -1,35 +1,45 @@
 import cv2
 import numpy as np
 from PIL import Image
-import streamlit as st
-from deepface import DeepFace  # DeepFace 라이브러리 활용
+from deepface import DeepFace
+from skimage.filters.rank import entropy
+from skimage.morphology import disk
 
-st.title("🔍 얼굴 나이 예측")
-
-uploaded_file = st.file_uploader("사진을 업로드하세요", type=["jpg", "png", "jpeg"])
-
-if uploaded_file:
-    image = Image.open(uploaded_file)
-    st.image(image, caption="업로드한 이미지", use_column_width=True)
-
-    # OpenCV 얼굴 검출
-    image_np = np.array(image)
-    gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+def detect_faces(image):
+    """
+    업로드된 이미지에서 얼굴을 검출하는 함수
+    """
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
 
+    # 이미지 변환 (PIL → OpenCV 배열)
+    image_np = np.array(image)
+    gray = cv2.cvtColor(image_np, cv2.COLOR_BGR2GRAY)
+
+    # 얼굴 검출 실행
     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 
-    if len(faces) > 0:
-        st.write(f"✅ 검출된 얼굴 개수: {len(faces)}개")
+    return faces
 
-        # 얼굴 부분만 크롭해서 분석
-        x, y, w, h = faces[0]
-        face_crop = image_np[y:y+h, x:x+w]
-
-        # DeepFace를 이용한 나이 예측
-        analysis = DeepFace.analyze(face_crop, actions=["age"], enforce_detection=False)
+def estimate_age(image):
+    """
+    DeepFace를 사용하여 얼굴의 나이를 예측하는 함수
+    """
+    try:
+        analysis = DeepFace.analyze(image, actions=["age"], enforce_detection=False)
         estimated_age = analysis[0]["age"]
+        return estimated_age
+    except Exception as e:
+        return f"나이 예측 실패: {str(e)}"
 
-        st.subheader(f"📌 AI 예측 나이: {estimated_age}세")
+def analyze_skin(image):
+    """
+    주름(피부 상태)을 분석하는 함수
+    """
+    gray = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2GRAY)
+    entropy_img = entropy(gray, disk(5))  # 피부 노화 분석
+    wrinkle_score = entropy_img.mean()
+
+    if wrinkle_score > 5.0:
+        return "😔 주름이 많아 노안 경향이 있습니다."
     else:
-        st.error("😔 얼굴을 감지하지 못했습니다. 더 밝은 환경에서 촬영해 주세요.")
+        return "🎉 피부가 부드러워 동안으로 보입니다!"
