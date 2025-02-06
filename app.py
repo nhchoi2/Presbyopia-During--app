@@ -13,7 +13,7 @@ def main():
 
     if image is not None:
         # 이미지 표시
-        st.image(image, caption="업로드한 이미지", use_column_width=True)
+        st.image(image, caption="업로드한 이미지", use_container_width=True)
 
         # 이미지 열기
         image = Image.open(image)
