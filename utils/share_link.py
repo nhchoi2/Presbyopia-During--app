@@ -1,11 +1,11 @@
-def get_share_links(result_label: str) -> dict:
+def get_share_links(label: str) -> dict:
     """
-    SNS 공유를 위한 예시 링크를 반환합니다.
-    실제 서비스별 공유 API나 쿼리 파라미터를 추가로 설정해줘야 합니다.
+    SNS(예: 트위터, 페이스북) 공유 링크를 단순히 생성한 예시입니다.
+    실제로는 서비스마다 파라미터 설정이 달라질 수 있습니다.
     """
-    share_text = f"나는 {result_label} 판정을 받았어요!"
-    twitter_url = f"https://twitter.com/intent/tweet?text={share_text}"
-    facebook_url = f"https://www.facebook.com/sharer/sharer.php?u=http://example.com&quote={share_text}"
+    text = f"나는 지금 {label} 판정을 받았어요!"
+    twitter_url = f"https://twitter.com/intent/tweet?text={text}"
+    facebook_url = f"https://www.facebook.com/sharer/sharer.php?u=https://example.com&quote={text}"
 
     return {
         "twitter": twitter_url,
