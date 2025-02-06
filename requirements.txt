@@ -2,3 +2,5 @@ streamlit
 tensorflow==2.15
 numpy
 pillow
+deepface
+keras
