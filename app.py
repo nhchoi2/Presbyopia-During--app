@@ -43,7 +43,7 @@ def main():
         image = Image.open(uploaded_file)
         
         # 이미지 표시
-        st.image(image, caption="업로드한 이미지", use_column_width=True)
+        st.image(image, caption="업로드한 이미지", use_container_width=True)
         
         # 모델 입력 크기에 맞춰 리사이즈 (예: 224x224)
         resized_img = image.resize((224, 224))
@@ -52,19 +52,19 @@ def main():
         
         # 모델 예측
         predictions = model.predict(img_array)
-        print(predictions)
         pred_index = np.argmax(predictions[0])
-        print(pred_index)
         confidence = predictions[0][pred_index]
+        st.text(confidence)
         
         # 결과 라벨
         result_label = labels[pred_index]
+        st.text(result_label)
         
         st.write(f"**결과 라벨:** {result_label[2:]}")
         st.write(f"**확률:** {confidence * 100:.2f}%")
         
         # 피드백 메시지 (필요 없다면 제거)
-        feedback_msg = get_feedback(result_label)
+        feedback_msg = get_feedback(result_label[2:])
         st.info(feedback_msg)
         
         # SNS 공유 링크 (필요 없다면 제거)
