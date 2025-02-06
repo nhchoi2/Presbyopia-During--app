@@ -43,7 +43,7 @@ def main():
         image = Image.open(uploaded_file)
         
         # 이미지 표시
-        st.image(image, caption="업로드한 이미지", use_container_width=True)
+        st.image(image, caption="업로드한 이미지", width=500)
         
         # 모델 입력 크기에 맞춰 리사이즈 (예: 224x224)
         resized_img = image.resize((224, 224))
