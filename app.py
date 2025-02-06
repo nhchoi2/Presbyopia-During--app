@@ -10,7 +10,8 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from utils.feedback import get_feedback
 from utils.share_link import get_share_links
-from utils.face_detect import detect_faces, estimate_age, analyze_skin  # ✅ 얼굴 분석 기능
+from utils.face_detect import detect_faces, estimate_age, analyze_skin
+from utils.sidebar import load_sidebar  # ✅ 사이드바 추가
 
 # 모델 및 라벨 불러오기
 MODEL_PATH = "model/keras_model.h5"
@@ -31,15 +32,13 @@ def load_labels():
 model = load_model()
 class_names = load_labels()
 
-# Streamlit UI 설정
+# 🔹 사이드바 로드
+mode, theme = load_sidebar()  # ✅ 사이드바 추가
+
 st.title("📷 동안 vs 노안 판별기")
 st.info("사진을 업로드하면 AI가 동안인지 노안인지 판별해줍니다.")
 
-# 🔹 "개별 분석" 또는 "비교 분석" 선택
-mode = st.radio("🔍 분석 모드 선택", ["개별 분석", "친구와 비교"])
-
 if mode == "개별 분석":
-    # 📌 기존 개별 분석 기능
     uploaded_file = st.file_uploader("📷 사진을 업로드하세요.", type=["jpg", "png", "jpeg"])
 
     if uploaded_file:
@@ -84,9 +83,8 @@ if mode == "개별 분석":
         st.write(f"[페이스북에서 공유하기]({share_links['facebook']})")
 
 elif mode == "친구와 비교":
-    # 📌 친구와 비교 기능
     st.subheader("👬 친구와 동안 점수 비교")
-    
+
     uploaded_file_1 = st.file_uploader("📷 첫 번째 사진을 업로드하세요", type=["jpg", "png", "jpeg"], key="file1")
     uploaded_file_2 = st.file_uploader("📷 두 번째 사진을 업로드하세요", type=["jpg", "png", "jpeg"], key="file2")
 
@@ -96,7 +94,6 @@ elif mode == "친구와 비교":
 
         st.image([image_1, image_2], caption=["첫 번째 사진", "두 번째 사진"], width=250)
 
-        # 🔹 동안 점수 계산 함수
         def get_young_score(image):
             image_resized = image.resize((224, 224))
             image_array = np.asarray(image_resized).astype(np.float32) / 127.5 - 1
@@ -106,20 +103,16 @@ elif mode == "친구와 비교":
             confidence_score = prediction[0][np.argmax(prediction)]  # 🔹 동안일 확률
             return confidence_score * 100  # 100점 만점 변환
 
-        # 동안 점수 계산
         score_1 = get_young_score(image_1)
         score_2 = get_young_score(image_2)
 
-        # 🔹 결과 비교 출력
         st.subheader("📊 동안 점수 비교")
         st.write(f"🔹 첫 번째 사진 동안 점수: **{score_1:.1f}/100**")
         st.write(f"🔹 두 번째 사진 동안 점수: **{score_2:.1f}/100**")
 
-        # 🔹 비교 결과 출력
         if score_1 > score_2:
             st.success("🎉 **첫 번째 사진이 더 동안입니다!**")
         elif score_1 < score_2:
             st.success("🎉 **두 번째 사진이 더 동안입니다!**")
         else:
             st.info("🤝 **두 사람의 동안 점수가 같습니다!**")
-
