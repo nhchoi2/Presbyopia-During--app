@@ -59,7 +59,7 @@ if st.session_state["mode"] == "개별 분석":
     uploaded_file = st.file_uploader("사진을 업로드하세요.", type=["jpg", "png", "jpeg"])
     if uploaded_file:
         image = Image.open(uploaded_file)
-        st.image(image, caption="업로드한 사진", use_column_width=True)
+        st.image(image, caption="업로드한 사진", width=450)
 
         # 예측 수행
         size = (224, 224)
