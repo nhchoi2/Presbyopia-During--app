@@ -43,7 +43,7 @@ if mode == "개별 분석":
 
     if uploaded_file:
         image = Image.open(uploaded_file)
-        st.image(image, caption="업로드한 이미지", use_column_width=True)
+        st.image(image, caption="업로드한 이미지", use_container_width=True)
 
         # 모델 입력 형태로 변환
         size = (224, 224)
@@ -94,16 +94,22 @@ elif mode == "친구와 비교":
 
         st.image([image_1, image_2], caption=["첫 번째 사진", "두 번째 사진"], width=250)
 
+        # 🔹 동안 점수 계산 (최소 42점 보장)
         def get_young_score(image):
-            image_resized = image.resize((224, 224))
-            image_array = np.asarray(image_resized).astype(np.float32) / 127.5 - 1
-            data = np.expand_dims(image_array, axis=0)
+            try:
+                image_resized = image.resize((224, 224))
+                image_array = np.asarray(image_resized).astype(np.float32) / 127.5 - 1
+                data = np.expand_dims(image_array, axis=0)
 
-            prediction = model.predict(data)
-            print(f"Prediction Output: {prediction}")  # ✅ 예측 결과 출력 (디버깅)
-            
-            confidence_score = prediction[0][0]  # ✅ 동안 확률을 첫 번째 클래스 기준으로 가져오기
-            return confidence_score * 100  # 100점 만점 변환
+                prediction = model.predict(data)
+                print(f"Prediction Output: {prediction}")  # ✅ 예측 결과 출력 (디버깅)
+                
+                confidence_score = prediction[0][0]  # ✅ 동안 확률을 첫 번째 클래스 기준으로 가져오기
+                final_score = confidence_score * 100  # 100점 만점 변환
+                
+                return max(final_score, 42)  # ✅ 최소 42점 이상 반환
+            except Exception as e:
+                return 42  # 오류 발생 시 기본 42점 반환
 
         score_1 = get_young_score(image_1)
         score_2 = get_young_score(image_2)
