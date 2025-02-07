@@ -43,7 +43,7 @@ if mode == "개별 분석":
 
     if uploaded_file:
         image = Image.open(uploaded_file)
-        st.image(image, caption="업로드한 이미지", use_container_width=True)
+        st.image(image, caption="업로드한 이미지", width=250)
 
         # 모델 입력 형태로 변환
         size = (224, 224)
