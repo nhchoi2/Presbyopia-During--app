@@ -74,11 +74,6 @@ if mode == "개별 분석":
         feedback_message = get_feedback(result_label.strip())
         st.markdown(f"💬 **피드백:** {feedback_message}")
 
-        # 🔹 SNS 공유 링크
-        st.subheader("🔗 결과 공유하기")
-        share_links = get_share_links(result_label.strip())
-        st.write(f"[트위터에서 공유하기]({share_links['twitter']})")
-        st.write(f"[페이스북에서 공유하기]({share_links['facebook']})")
 
 elif mode == "친구와 비교":
     st.header("👬 **친구와 동안 점수 비교**")
