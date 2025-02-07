@@ -39,7 +39,7 @@ st.title("📷 동안 vs 노안 판별기")
 st.info("사진을 업로드하면 AI가 동안인지 노안인지 판별해줍니다.")
 
 if mode == "개별 분석":
-    uploaded_file = st.file_uploader("📷 사진을 업로드하세요.", type=["jpg", "png", "jpeg".webp])
+    uploaded_file = st.file_uploader("📷 사진을 업로드하세요.", type=["jpg", "png", "jpeg","webp"])
 
     if uploaded_file:
         image = Image.open(uploaded_file)
