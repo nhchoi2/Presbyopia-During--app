@@ -58,17 +58,8 @@ if mode == "개별 분석":
         confidence_score = prediction[0][index]
 
         # 결과 출력
-        st.subheader(f"📌 AI 판별 결과: {result_label}")
+        st.subheader(f"📌 AI 판별 결과: {result_label[2]}")
         st.write(f"확신도: {confidence_score:.2%}")
-
-        # 🔹 얼굴 검출 추가
-        faces = detect_faces(image)
-        if isinstance(faces, list) and len(faces) > 0:
-            estimated_age = estimate_age(image)
-
-            st.subheader(f"📌 AI 예측 나이: {estimated_age}세")  # 🔹 AI가 예측한 나이 출력
-        else:
-            st.warning("😔 얼굴을 찾지 못했습니다. 더 밝은 환경에서 촬영해 주세요.")
 
         # 🔹 랜덤 피드백 제공
         feedback_message = get_feedback(result_label.strip())  # 🔹 라벨에서 공백 제거 후 피드백
