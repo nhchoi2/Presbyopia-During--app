@@ -5,6 +5,9 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 
+# 페이지 설정 (가장 첫 번째로 위치)
+st.set_page_config(page_title="동안 vs 노안 판별기", layout="wide")
+
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from utils.feedback import get_feedback
@@ -28,9 +31,6 @@ class_names = load_labels()
 
 # 🔹 사이드바 로드
 mode, theme = load_sidebar()
-
-# 페이지 설정
-st.set_page_config(page_title="동안 vs 노안 판별기", layout="wide")
 
 # 헤더 섹션
 with st.container():
