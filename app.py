@@ -58,7 +58,7 @@ if mode == "개별 분석":
         confidence_score = prediction[0][index]
 
         # 결과 출력
-        st.subheader(f"📌 AI 판별 결과: {result_label[2]}")
+        st.subheader(f"📌 AI 판별 결과: {result_label[2:]}")
         st.write(f"확신도: {confidence_score:.2%}")
 
         # 🔹 랜덤 피드백 제공
