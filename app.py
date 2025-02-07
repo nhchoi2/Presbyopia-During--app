@@ -30,7 +30,11 @@ model = load_model()
 class_names = load_labels()
 
 # 🔹 사이드바 로드
-mode, theme = load_sidebar()
+_, _ = load_sidebar()  # 사이드바 로드 (여기서는 사용하지 않음)
+
+# 🔹 세션 상태 초기화
+if "mode" not in st.session_state:
+    st.session_state["mode"] = "개별 분석"  # 기본 모드 설정
 
 # 헤더 섹션
 with st.container():
@@ -44,13 +48,13 @@ col1, col2 = st.columns(2)
 
 with col1:
     if st.button("개별 분석"):
-        mode = "개별 분석"
+        st.session_state["mode"] = "개별 분석"  # 모드 변경
 with col2:
     if st.button("친구와 비교"):
-        mode = "친구와 비교"
+        st.session_state["mode"] = "친구와 비교"  # 모드 변경
 
-# 분석 섹션
-if mode == "개별 분석":
+# 🔹 현재 모드에 따른 처리
+if st.session_state["mode"] == "개별 분석":
     st.markdown("### 📷 개별 분석")
     uploaded_file = st.file_uploader("사진을 업로드하세요.", type=["jpg", "png", "jpeg"])
     if uploaded_file:
@@ -72,7 +76,7 @@ if mode == "개별 분석":
         st.write(f"확신도: {confidence_score:.2%}")
         st.markdown(f"💬 피드백: {get_feedback(result_label.strip())}")
 
-elif mode == "친구와 비교":
+elif st.session_state["mode"] == "친구와 비교":
     st.markdown("### 👬 친구와 비교")
     uploaded_file_1 = st.file_uploader("첫 번째 사진을 업로드하세요", type=["jpg", "png", "jpeg"], key="file1")
     uploaded_file_2 = st.file_uploader("두 번째 사진을 업로드하세요", type=["jpg", "png", "jpeg"], key="file2")
