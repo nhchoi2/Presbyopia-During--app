@@ -10,7 +10,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from utils.feedback import get_feedback
 from utils.share_link import get_share_links
-from utils.face_detect import detect_faces, estimate_age, analyze_skin
+from utils.face_detect import detect_faces, estimate_age  # 🔹 analyze_skin 제거
 from utils.sidebar import load_sidebar  # ✅ 사이드바 추가
 
 # 모델 및 라벨 불러오기
@@ -39,7 +39,7 @@ st.title("📷 동안 vs 노안 판별기")
 st.info("사진을 업로드하면 AI가 동안인지 노안인지 판별해줍니다.")
 
 if mode == "개별 분석":
-    uploaded_file = st.file_uploader("📷 사진을 업로드하세요.", type=["jpg", "png", "jpeg"])
+    uploaded_file = st.file_uploader("📷 사진을 업로드하세요.", type=["jpg", "png", "jpeg".webp])
 
     if uploaded_file:
         image = Image.open(uploaded_file)
@@ -65,10 +65,8 @@ if mode == "개별 분석":
         faces = detect_faces(image)
         if isinstance(faces, list) and len(faces) > 0:
             estimated_age = estimate_age(image)
-            skin_result = analyze_skin(image)  # 🔹 피부 분석 결과 가져오기
 
             st.subheader(f"📌 AI 예측 나이: {estimated_age}세")  # 🔹 AI가 예측한 나이 출력
-            st.write(skin_result)  # 🔹 피부 분석 결과 출력
         else:
             st.warning("😔 얼굴을 찾지 못했습니다. 더 밝은 환경에서 촬영해 주세요.")
 
