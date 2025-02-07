@@ -20,16 +20,15 @@ AI를 활용하여 "내 얼굴이 동안일까, 노안일까?" 판별하고,
 ### 1. 필수 패키지 설치
 먼저 `requirements.txt`를 사용하여 필요한 패키지를 설치합니다.
 
-```bash
 pip install -r requirements.txt
 
-2. Streamlit 실행
+### 2. Streamlit 실행
 아래 명령어를 실행하면 로컬 서버에서 앱을 실행할 수 있습니다.
 streamlit run app.py
 
 앱이 실행되면 브라우저에서 http://localhost:8501 주소로 접근할 수 있습니다.
 
-프로젝트 폴더 구조
+### 프로젝트 폴더 구조
 
 📦 프로젝트 루트
 ├── 📂 model              # AI 모델 저장 폴더
@@ -49,7 +48,7 @@ streamlit run app.py
 
 ---
 
-UI 스크린샷
+## UI 스크린샷
 메인 화면
 
 동안 vs 노안 결과
