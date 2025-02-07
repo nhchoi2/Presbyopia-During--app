@@ -20,11 +20,11 @@ AI를 활용하여 "내 얼굴이 동안일까, 노안일까?" 판별하고,
 ### 1. 필수 패키지 설치
 먼저 `requirements.txt`를 사용하여 필요한 패키지를 설치합니다.
 
-pip install -r requirements.txt
+'pip install -r requirements.txt'
 
 ### 2. Streamlit 실행
 아래 명령어를 실행하면 로컬 서버에서 앱을 실행할 수 있습니다.
-'''streamlit run app.py
+'streamlit run app.py'
 
 앱이 실행되면 브라우저에서 http://localhost:8501 주소로 접근할 수 있습니다.
 
@@ -55,21 +55,20 @@ pip install -r requirements.txt
 
 친구와 비교 기능
 
-기술 스택
-이 프로젝트는 다음과 같은 기술을 사용하여 개발되었습니다:
+## 기술 스택
+### 이 프로젝트는 다음과 같은 기술을 사용하여 개발되었습니다:
 
-Python 3.10+
-Streamlit - 웹 UI 개발
-TensorFlow/Keras - AI 모델 실행
-OpenCV - 얼굴 검출
-향후 추가 기능 (업데이트 예정)
-이 앱은 지속적으로 개선될 예정이며, 다음 기능이 추가될 수 있습니다:
+> Python 3.10+
+> Streamlit - 웹 UI 개발
+> TensorFlow/Keras - AI 모델 실행
+> 향후 추가 기능 (업데이트 예정)
+#### 이 앱은 지속적으로 개선될 예정이며, 다음 기능이 추가될 수 있습니다:
 
-AI 기반 동안/노안 변환 필터 (동안 효과 or 노안 효과)
-얼굴 감정 분석 (웃는 얼굴 vs 무표정 vs 화난 얼굴)
-다양한 연령대별 동안 점수 평균 비교
+> AI 기반 동안/노안 변환 필터 (동안 효과 or 노안 효과)
+> 얼굴 감정 분석 (웃는 얼굴 vs 무표정 vs 화난 얼굴)
+> 다양한 연령대별 동안 점수 평균 비교
 
-개발자 정보
-개발자: 최남호
-이메일: choi1278@gmail.com
-GitHub: https://github.com/nhchoi2/Presbyopia-During--app
+> 개발자 정보
+> 개발자: 최남호
+> 이메일: choi1278@gmail.com
+>  GitHub: [GitHub 방문하기](https://github.com/nhchoi2/Presbyopia-During--app)
