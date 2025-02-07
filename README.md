@@ -46,6 +46,9 @@ streamlit run app.py
 ├── app.py                # 메인 애플리케이션 파일
 ├── requirements.txt      # 필요한 패키지 목록
 ├── README.md             # 프로젝트 설명 파일
+
+---
+
 UI 스크린샷
 메인 화면
 
