@@ -54,12 +54,12 @@ UI 스크린샷
 ## 기술 스택
 ### 이 프로젝트는 다음과 같은 기술을 사용하여 개발되었습니다:
 
-Python 3.10+
-Streamlit - 웹 UI 개발
-TensorFlow/Keras - AI 모델 실행
-향후 추가 기능 (업데이트 예정)
+- Python 3.10+
+- Streamlit - 웹 UI 개발
+- TensorFlow/Keras - AI 모델 실행
+- 향후 추가 기능 (업데이트 예정)
 #### 이 앱은 지속적으로 개선될 예정이며, 다음 기능이 추가될 수 있습니다:
-```
+---
 AI 기반 동안/노안 변환 필터 (동안 효과 or 노안 효과)
 얼굴 감정 분석 (웃는 얼굴 vs 무표정 vs 화난 얼굴)
 다양한 연령대별 동안 점수 평균 비교
@@ -68,4 +68,3 @@ AI 기반 동안/노안 변환 필터 (동안 효과 or 노안 효과)
 개발자: 최남호
 이메일: choi1278@gmail.com
 GitHub: [GitHub 방문하기](https://github.com/nhchoi2/Presbyopia-During--app)
-```
