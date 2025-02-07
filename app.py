@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-# 페이지 설정 (가장 첫 번째로 위치)
+# 페이지 설정
 st.set_page_config(page_title="동안 vs 노안 판별기", layout="wide")
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
@@ -77,6 +77,7 @@ elif mode == "친구와 비교":
     uploaded_file_1 = st.file_uploader("첫 번째 사진을 업로드하세요", type=["jpg", "png", "jpeg"], key="file1")
     uploaded_file_2 = st.file_uploader("두 번째 사진을 업로드하세요", type=["jpg", "png", "jpeg"], key="file2")
 
+    # ✅ 두 개의 파일이 모두 업로드되었을 때만 처리
     if uploaded_file_1 and uploaded_file_2:
         image_1 = Image.open(uploaded_file_1)
         image_2 = Image.open(uploaded_file_2)
@@ -106,3 +107,7 @@ elif mode == "친구와 비교":
             st.success("두 번째 사진이 더 동안입니다!")
         else:
             st.info("두 사진의 동안 점수가 같습니다!")
+
+    # ✅ 한 개의 파일만 업로드된 경우 경고 메시지 표시
+    elif uploaded_file_1 or uploaded_file_2:
+        st.warning("사진 두 개를 모두 업로드해야 비교할 수 있습니다!")
