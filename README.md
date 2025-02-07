@@ -65,7 +65,7 @@ AI 기반 동안/노안 변환 필터 (동안 효과 or 노안 효과)
 얼굴 감정 분석 (웃는 얼굴 vs 무표정 vs 화난 얼굴)
 다양한 연령대별 동안 점수 평균 비교
 
-#### 개발자 정보
+### 개발자 정보
 #### 개발자: 최남호
 #### 이메일: choi1278@gmail.com
 #### GitHub: [GitHub 방문하기](https://github.com/nhchoi2/Presbyopia-During--app)
