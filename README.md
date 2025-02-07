@@ -24,12 +24,12 @@ pip install -r requirements.txt
 
 ### 2. Streamlit 실행
 아래 명령어를 실행하면 로컬 서버에서 앱을 실행할 수 있습니다.
-streamlit run app.py
+'''streamlit run app.py
 
 앱이 실행되면 브라우저에서 http://localhost:8501 주소로 접근할 수 있습니다.
 
 ### 프로젝트 폴더 구조
-
+'''
 📦 프로젝트 루트
 ├── 📂 model              # AI 모델 저장 폴더
 │   ├── keras_model.h5    # 훈련된 Keras 모델
